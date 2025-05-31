@@ -1,0 +1,39 @@
+.wrapper {
+  .heroWrapper {
+    margin-top: 7rem;
+    height: 60vh;
+
+    background-image: url('/head-img.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .heroContainer {
+      max-width: var(--max-width);
+      width: 100%;
+      height: 100%;
+      margin: auto;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+      
+      .subtitle {
+        font-weight: 500;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+
+        color: var(--light-main);
+      }
+
+      .title {
+        font-weight: 700;
+        font-size: 3.5rem;
+        line-height: 4.25rem;
+
+        color: var(--light-main);
+      }
+    }
+  }
+}

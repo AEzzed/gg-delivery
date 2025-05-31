@@ -1,0 +1,80 @@
+.cardWrapper {
+  width: 100%;
+}
+
+.topCard {
+  position: relative;
+  width: 100%;
+  height: 12.5rem;
+
+  & > img {
+    max-width: 100%;
+    width: auto;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .cardButtons {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+
+    display: flex;
+    align-items: center;
+    background: var(--light-add);
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+
+    & > span,
+    & > button {
+      width: 2rem;
+      height: 2rem;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: none;
+      background: var(--light-add);
+      border-radius: 0.5rem;
+
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1rem;
+      color: var(--dark-add);
+    }
+
+    & > button {
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+        background: var(--light-main);
+      }
+    }
+
+    & > span {
+      width: fit-content;
+      padding: 0 0.5rem;
+    }
+  }
+}
+
+.price {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.5rem;
+
+  color: var(--dark-main);
+}
+
+.title {
+  margin-top: 0.5rem;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+
+  color: var(--dark-main);
+}
