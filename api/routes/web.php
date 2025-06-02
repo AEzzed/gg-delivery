@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Product;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/items', function() {
-    $items = ['item1', 'item2', 'item3'];
-    $products = Product::all();
-    return $products;
-});
+Route::get('/catalog', [ProductController::class, 'getCatalog'])->name('getCatalog');
+
+//Get all product categories
+Route::get('/categories', [ProductController::class, 'getCategories'])->name('getCategories');

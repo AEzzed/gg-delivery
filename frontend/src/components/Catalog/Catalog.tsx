@@ -1,18 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import s from './Catalog.module.scss';
 import SidePanel from './SidePanel/SidePanel';
 import Button from '../ui/Button/Button';
 import CrossIcon from '../ui/assets/CrossIcon';
 import DropDown from '../ui/DropDown/DropDown';
 import ProductCard from './ProductCard/ProductCard';
+import { productApi } from '../../api/productApi';
 
 export type SortByStatusType = { min: number; max: number };
 const sortDropDownValues = ['По возрастанию цены', 'По убыванию цены'];
 
-const tagsItems = ['Овощи', 'Свежая выпечка', 'Meat', 'Apples', 'Green'];
+// const tagsItems = ['Овощи', 'Свежая выпечка', 'Meat', 'Apples', 'Green'];
 
 const products = [
   {
+    id: 1,
     title: 'Мюсли Fitness  Energy, без глютена',
     price: 10,
     amount: 1,
@@ -26,17 +28,34 @@ const Catalog = () => {
     min: 0,
     max: 0,
   });
-  const [tagsValue, setTagsValue] = useState<string>(tagsItems[0]);
-  const [tags, setTags] = useState<string[]>(tagsItems);
+  const [categoriesValue, setCategoriesValue] = useState<string | null>(null);
+  const [allCategories, setAllCategories] = useState<string[] | null>(null);
+  const [categories, setCategories] = useState<string[]>([]);
 
-  const handleDeleteTag = (item: string) => {
-    setTags((prev) => prev.filter((el) => el !== item));
+  const handleDeleteCategory = (item: string) => {
+    setCategories((prev) => prev.filter((el) => el !== item));
   };
 
-  const handleChangeTag = (item: string) => {
-    setTags((prev) => (!prev.includes(item) ? [...prev, item] : prev));
-    return setTagsValue(item);
+  const handleChangeCategory = (item: string) => {
+    setCategories(
+      categories.includes(item) ? categories : [...categories, item]
+    );
+
+    return setCategoriesValue(item);
   };
+
+  // const [products, setProducts] = useState<null | []>(null);
+
+  const getCategories = async () => {
+    const categories = await productApi.getCategories();
+
+    setAllCategories(categories);
+    setCategoriesValue(categories[0]);
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <div className={s.wrapper}>
@@ -54,40 +73,41 @@ const Catalog = () => {
         <div className={s.catalog}>
           <span>Найдено 200 наименований</span>
           <div className={s.tagsWrapper}>
-            <div className={s.tags}>
-              {tags.map((tag, index) => (
+            <div className={s.categories}>
+              {categories.map((category, index) => (
                 <Button
                   classname={s.tagBtn}
-                  onclick={() => handleDeleteTag(tag)}
-                  key={`${index}-${tag}`}
+                  onclick={() => handleDeleteCategory(category)}
+                  key={`${index}-${category}`}
                   type="grey"
                 >
                   <CrossIcon />
-                  {tag}
+                  {category}
                 </Button>
               ))}
             </div>
-            {tags.length > 0 && (
-              <Button
-                classname={s.tagBtn}
-                onclick={() => setTags([])}
-                type="stroke-dark"
-              >
-                Очистить фильтры
-              </Button>
-            )}
 
-            <DropDown
-              dropDownItems={tagsItems}
-              dropDownValue={tagsValue}
-              setDropDownValue={handleChangeTag}
+            <Button
               classname={s.tagBtn}
-            />
+              onclick={() => setCategories([])}
+              type="stroke-dark"
+            >
+              Очистить фильтры
+            </Button>
+
+            {allCategories && categoriesValue && (
+              <DropDown
+                dropDownItems={allCategories}
+                dropDownValue={categoriesValue}
+                setDropDownValue={handleChangeCategory}
+                classname={s.tagBtn}
+              />
+            )}
           </div>
 
           <div className={s.productsContainer}>
             {products.map((product) => (
-              <ProductCard {...product} />
+              <ProductCard key={product.id} {...product} />
             ))}
           </div>
         </div>
