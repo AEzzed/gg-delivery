@@ -50,8 +50,12 @@ const DropDown = ({
 
       {isOpen && (
         <ul className={s.dropDownList}>
-          {dropDownItems.map((item) => (
-            <li className={s.dropDownItem} onClick={() => handleClick(item)}>
+          {dropDownItems.map((item, index) => (
+            <li
+              key={`${index}-${item}`}
+              className={s.dropDownItem}
+              onClick={() => handleClick(item)}
+            >
               {item}
             </li>
           ))}

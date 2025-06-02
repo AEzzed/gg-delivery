@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import s from './ProductCard.module.scss';
+import type { ProductType } from '../types';
 
-interface IProductCard {
-  title: string;
-  price: number;
-  amount: number;
-  image: string;
+interface IProductCard extends ProductType {
+  amount?: number;
 }
 
-const ProductCard = ({ title, price, amount, image }: IProductCard) => {
+const ProductCard = ({ name, price, amount = 0, image_url }: IProductCard) => {
   const [currAmount, setCurrAmount] = useState(amount);
-  const imagePath = image != '' ? `/images/products/${image}` : '/images/products/plug-img.png';
+  const imagePath =
+    image_url != '' ? `/images/products/${image_url}` : '/images/products/plug-img.png';
 
   function handleAddToCart() {
     setCurrAmount((prev) => ++prev);
@@ -23,7 +22,7 @@ const ProductCard = ({ title, price, amount, image }: IProductCard) => {
   return (
     <div className={s.cardWrapper}>
       <div className={s.topCard}>
-        <img src={imagePath} alt={title} />
+        <img src={imagePath} alt={name} />
 
         <div className={s.cardButtons}>
           {currAmount > 0 && (
@@ -37,7 +36,7 @@ const ProductCard = ({ title, price, amount, image }: IProductCard) => {
       </div>
 
       <span className={s.price}>{price} рублей</span>
-      <h4 className={s.title}>{title}</h4>
+      <h4 className={s.name}>{name}</h4>
     </div>
   );
 };

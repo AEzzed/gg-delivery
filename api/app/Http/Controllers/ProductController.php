@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function getCatalog() {
-        $products = Product::all()->makeHidden('description');
+    public function getCatalog(Request $request) {
+    $categories = $request->input('categories', []);
 
-        return $products;
+    $query = Product::query();
 
+    if (!empty($categories)) {
+        $query->whereIn('category', $categories);
+    }
+
+    $products = $query->get()->makeHidden('description');
+
+    return $products;
     }
 
     public function getCategories() {
