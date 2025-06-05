@@ -33,7 +33,7 @@
 
   width: 100%;
 
-  .tagsWrapper {
+  .categoriesWrapper {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -41,7 +41,7 @@
 
     width: 100%;
 
-    .tags {
+    .categories {
       width: 100%;
       display: flex;
       align-items: center;
@@ -55,7 +55,7 @@
       // }
     }
 
-    .tagBtn {
+    .categoryBtn {
       min-width: fit-content;
     }
   }

@@ -71,12 +71,12 @@ const Catalog = () => {
         />
 
         <div className={s.catalog}>
-          <span>Найдено 200 наименований</span>
-          <div className={s.tagsWrapper}>
+          <span>Найдено {products?.length ?? 0} наименований</span>
+          <div className={s.categoriesWrapper}>
             <div className={s.categories}>
               {categories.map((category, index) => (
                 <Button
-                  classname={s.tagBtn}
+                  classname={s.categoryBtn}
                   onclick={() => handleDeleteCategory(category)}
                   key={`${index}-${category}`}
                   type="grey"
@@ -87,13 +87,15 @@ const Catalog = () => {
               ))}
             </div>
 
-            <Button
-              classname={s.tagBtn}
-              onclick={() => setCategories([])}
-              type="stroke-dark"
-            >
-              Очистить фильтры
-            </Button>
+            {categories.length > 0 && (
+              <Button
+                classname={s.categoryBtn}
+                onclick={() => setCategories([])}
+                type="stroke-dark"
+              >
+                Очистить фильтры
+              </Button>
+            )}
 
             {allCategories && categoriesValue && (
               <DropDown
