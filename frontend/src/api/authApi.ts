@@ -1,4 +1,4 @@
-import type { AuthType } from '../types/types';
+import type { AuthType, UserType } from '../types/types';
 import axios from './instance';
 
 export const authApi = {
@@ -9,7 +9,7 @@ export const authApi = {
         login,
       });
       console.log(res.data.uid);
-      
+
       sessionStorage.setItem('isAuth', res.data.uid);
 
       return;
@@ -32,6 +32,20 @@ export const authApi = {
     } catch (err: any) {
       console.error(err.response.data.message);
       return err.response?.data?.message || 'Произошла ошибка';
+    }
+  },
+
+  async getUser({ id }: { id: string }): Promise<UserType | undefined> {
+    try {
+      const res = await axios.get('api/user', {
+        params: {
+          id,
+        },
+      });
+
+      return res.data.user;
+    } catch (err: any) {
+      console.error(err.response.data.message);
     }
   },
 };

@@ -21,7 +21,7 @@ class ProductController extends Controller
 
         $products = $query->get()->makeHidden('description');
 
-        return $products;
+        return response()->json($products);
     }
 
     public function getProduct(Request $request)
@@ -37,7 +37,7 @@ class ProductController extends Controller
             ->distinct()
             ->pluck('category');
 
-        return $categories;
+        return response()->json($categories);
     }
 
     public function addItemToCart(Request $request)
@@ -184,6 +184,39 @@ class ProductController extends Controller
         } else {
             return response()->json(['quantity' => 0]);
         }
+    }
+
+    public function getOrderHistory(Request $request)
+    {
+        $userId = $request->input('user_id');
+
+        // Получаем все заказы пользователя, кроме корзины
+        $orders = Order::where('user_id', $userId)
+            ->where('status', '!=', 'cart')
+            ->with([
+                'orderItems.product:id,name,price'
+            ])
+            ->orderByDesc('created_at')
+            ->get();
+
+        // Формируем ответ
+        $formattedOrders = $orders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'total_price' => $order->total_price,
+                'items' => $order->orderItems->map(function ($item) {
+                    return [
+                        'product_id' => $item->product_id,
+                        'name' => $item->product->name,
+                        'image_url' => $item->product->image_url,
+                        'quantity' => $item->quantity,
+                        'price' => $item->price,
+                    ];
+                }),
+            ];
+        });
+
+        return response()->json($formattedOrders);
     }
 
 }

@@ -1,4 +1,4 @@
-import type { ProductType } from '../types/types';
+import type { ProductType, HistoryType } from '../types/types';
 import axios from './instance';
 
 type ProductChangeType = {
@@ -100,6 +100,23 @@ export const productApi = {
       const res = await axios.get('/api/product', {
         params: {
           product_id,
+        },
+      });
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async getHistory({
+    userId,
+  }: {
+    userId: string;
+  }): Promise<HistoryType[] | undefined> {
+    try {
+      const res = await axios.get('/api/cart/history', {
+        params: {
+          user_id: userId,
         },
       });
       return res.data;

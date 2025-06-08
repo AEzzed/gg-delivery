@@ -29,7 +29,8 @@ Route::post('/cart/item/add', [ProductController::class, 'addItemToCart']);
 Route::post('/cart/item/remove', [ProductController::class, 'removeItemFromCart']);
 Route::post('/cart/remove', [ProductController::class, 'removeFromCart']);
 Route::post('/cart/item/quantity', [ProductController::class, 'getCartItemQuantity']);
+Route::get('/cart/history', [ProductController::class, 'getOrderHistory']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-// Route::get('/user', [AuthController::class, 'user']);
+Route::get('/user', [AuthController::class, 'getUserInfo']);

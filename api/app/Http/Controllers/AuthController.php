@@ -53,4 +53,16 @@ class AuthController extends Controller
             'uid' => $user->id,
         ], 200);
     }
+
+    public function getUserInfo(Request $request)
+    {
+        $id = $request->input('id');
+        $user = User::find($id)->makeHidden(['id', 'password']);
+
+        return Response::json([
+            'user' => $user,
+        ], 200);
+    }
+
+
 }
