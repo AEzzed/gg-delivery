@@ -1,4 +1,4 @@
-import type { ProductType, HistoryType } from '../types/types';
+import type { ProductType, OrdersType, CartType } from '../types/types';
 import axios from './instance';
 
 type ProductChangeType = {
@@ -112,7 +112,7 @@ export const productApi = {
     userId,
   }: {
     userId: string;
-  }): Promise<HistoryType[] | undefined> {
+  }): Promise<OrdersType[] | undefined> {
     try {
       const res = await axios.get('/api/cart/history', {
         params: {
@@ -123,5 +123,56 @@ export const productApi = {
     } catch (err) {
       console.error(err);
     }
+  },
+
+  async getOrders({
+    userId,
+  }: {
+    userId: string;
+  }): Promise<OrdersType[] | undefined> {
+    try {
+      const res = await axios.get('/api/orders', {
+        params: {
+          user_id: userId,
+        },
+      });
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async getCart({
+    userId,
+  }: {
+    userId: string;
+  }): Promise<CartType | undefined> {
+    try {
+      const res = await axios.get('/api/cart', {
+        params: {
+          user_id: userId,
+        },
+      });
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  confirmOrder: async ({
+    userId,
+    paymentMethod,
+    deliveryMethod,
+  }: {
+    userId: number;
+    paymentMethod: string;
+    deliveryMethod: string;
+  }) => {
+    const res = await axios.post('/api/order/confirm', {
+      user_id: userId,
+      payment_method: paymentMethod,
+      delivery_method: deliveryMethod,
+    });
+    return res.data;
   },
 };

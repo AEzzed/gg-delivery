@@ -42,50 +42,51 @@ class ProductController extends Controller
 
     public function addItemToCart(Request $request)
     {
-        // Валидация входных данных
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
 
-        // Проверяем, есть ли у пользователя активная корзина (status = 'cart')
-        $cart = Order::where('user_id', $request->user_id)
+        $userId = $request->user_id;
+
+        $cart = Order::where('user_id', $userId)
             ->where('status', 'cart')
             ->first();
 
         if (!$cart) {
-            // Если корзины нет, создаём новую
             $cart = Order::create([
-                'user_id' => $request->user_id,
+                'user_id' => $userId,
                 'status' => 'cart',
                 'total_price' => 0,
             ]);
         }
 
-        // Получаем информацию о товаре
         $product = Product::findOrFail($request->product_id);
+        $newQuantity = $request->quantity;
+        $itemPrice = $product->price;
 
-        // Проверяем, есть ли этот товар уже в корзине
-        $existingItem = $cart->orderItems()->where('product_id', $request->product_id)->first();
+        $existingItem = $cart->orderItems()
+            ->where('product_id', $request->product_id)
+            ->first();
 
         if ($existingItem) {
-            // Если товар уже есть в корзине, обновляем количество
+            $updatedQuantity = $existingItem->quantity + $newQuantity;
+            $updatedPrice = $itemPrice * $updatedQuantity;
+
             $existingItem->update([
-                'quantity' => $existingItem->quantity + $request->quantity,
-                'price' => $product->price,
+                'quantity' => $updatedQuantity,
+                'price' => $updatedPrice,
             ]);
         } else {
-            // Если товара нет в корзине, добавляем его
             OrderItem::create([
                 'order_id' => $cart->id,
                 'product_id' => $request->product_id,
-                'quantity' => $request->quantity,
-                'price' => $product->price,
+                'quantity' => $newQuantity,
+                'price' => $itemPrice * $newQuantity,
             ]);
         }
 
-        // Обновляем общую стоимость корзины
         $cart->update([
             'total_price' => $cart->orderItems()->sum('price'),
         ]);
@@ -190,16 +191,45 @@ class ProductController extends Controller
     {
         $userId = $request->input('user_id');
 
-        // Получаем все заказы пользователя, кроме корзины
         $orders = Order::where('user_id', $userId)
-            ->where('status', '!=', 'cart')
+            ->where('status', '=', 'completed')
             ->with([
-                'orderItems.product:id,name,price'
+                'orderItems.product:id,name,price,image_url'
             ])
             ->orderByDesc('created_at')
             ->get();
 
-        // Формируем ответ
+        $formattedOrders = $orders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'total_price' => $order->total_price,
+                'items' => $order->orderItems->map(function ($item) {
+                    return [
+                        'product_id' => $item->product_id,
+                        'name' => $item->product->name,
+                        'quantity' => $item->quantity,
+                        'image_url' => $item->product->image_url,
+                        'price' => $item->price,
+                    ];
+                }),
+            ];
+        });
+
+        return response()->json($formattedOrders);
+    }
+
+    public function getOrders(Request $request)
+    {
+        $userId = $request->input('user_id');
+
+        $orders = Order::where('user_id', $userId)
+            ->where('status', '=', 'in progress')
+            ->with([
+                'orderItems.product:id,name,price,image_url'
+            ])
+            ->orderByDesc('created_at')
+            ->get();
+
         $formattedOrders = $orders->map(function ($order) {
             return [
                 'id' => $order->id,
@@ -217,6 +247,65 @@ class ProductController extends Controller
         });
 
         return response()->json($formattedOrders);
+    }
+
+
+    public function getCart(Request $request)
+    {
+        $userId = $request->input('user_id');
+
+        $cart = Order::where('user_id', $userId)
+            ->where('status', 'cart')
+            ->with([
+                'orderItems.product:id,name,price,image_url'
+            ])
+            ->first();
+
+        if (!$cart) {
+            return response()->json(['cart' => null]);
+        }
+
+
+        $formattedCart = [
+            'id' => $cart->id,
+            'total_price' => $cart->total_price,
+            'items' => $cart->orderItems->map(function ($item) {
+                return [
+                    'product_id' => $item->product_id,
+                    'name' => $item->product->name,
+                    'item_price' => $item->product->price,
+                    'total_price' => $item->price,
+                    'image_url' => $item->product->image_url
+                ];
+            }),
+        ];
+
+        return response()->json($formattedCart);
+    }
+
+    public function confirmOrder(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'payment_method' => 'required|string',
+            'delivery_method' => 'required|string',
+        ]);
+
+        $cart = Order::where('user_id', $request->user_id)
+            ->where('status', 'cart')
+            ->with('orderItems.product') // можно загрузить товары, если нужно
+            ->first();
+
+
+        $cart->update([
+            'payment_method' => $request->payment_method,
+            'delivery_method' => $request->delivery_method,
+            'status' => 'in progress', 
+        ]);
+
+        return response()->json([
+            'message' => 'Заказ подтверждён',
+        ], 200);
     }
 
 }

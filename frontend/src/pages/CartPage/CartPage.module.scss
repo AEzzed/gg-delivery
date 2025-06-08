@@ -1,0 +1,134 @@
+.wrapper {
+  max-width: var(--max-width);
+  width: 100%;
+  min-height: 65vh;
+  margin: auto;
+
+  padding-top: 8rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1.75em;
+  line-height: 2.25rem;
+  color: var(--dark-main);
+}
+
+.cartWrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 4rem;
+}
+
+.cartItems {
+  max-width: 75%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.OrderInfo {
+  max-width: 25%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .notification {
+    padding: 1rem;
+    background: var(--light-add);
+    border-radius: 0.5rem;
+
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5rem;
+
+    color: var(--dark-main);
+  }
+
+  .infoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+
+    .infoTitle {
+      font-weight: 600;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+
+      color: var(--dark-main);
+    }
+
+    .dropDownContainer {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+
+      font-weight: 500;
+      font-size: 0.875rem;
+      line-height: 1.5rem;
+
+      color: var(--dark-main);
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--light-add);
+    }
+
+    .dropDown {
+    }
+
+    .infoItem {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      color: var(--dark-add);
+
+      .infoItemBold {
+        font-weight: 600;
+        color: var(--dark-main);
+      }
+      .price {
+        font-weight: 600;
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+        color: var(--dark-main);
+      }
+    }
+  }
+}
+
+.modal {
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  padding: 8rem;
+  border-radius: 1rem;
+  background: var(--primary-color);
+  color: var(--light-main);
+
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+
+  cursor: pointer;
+}

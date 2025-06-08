@@ -1,0 +1,81 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4rem;
+
+  width: 100%;
+
+  border-bottom: 1px solid var(--light-add);
+  padding-bottom: 1.5rem;
+
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.5rem;
+
+  .title {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    span {
+      text-wrap: nowrap;
+      font-weight: 500;
+    }
+
+    & > img {
+      max-width: 110px;
+      max-height: 110px;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+    }
+  }
+
+  .quantityBtn {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    padding: 1rem 1.5rem;
+
+    border: 1px solid var(--dark-add);
+    border-radius: 10rem;
+    color: var(--dark-add);
+
+    font-weight: 500;
+    font-size: 1rem;
+
+    & > button {
+      cursor: pointer;
+      transition: opacity 0.3s;
+      border: none;
+      background: transparent;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      font-weight: 500;
+      font-size: 1.5rem;
+      line-height: 1.25rem;
+      color: var(--dark-add);
+    }
+  }
+  .clearBtn {
+    cursor: pointer;
+    transition: opacity 0.3s;
+    background: transparent;
+    border: none;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    > * {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+}

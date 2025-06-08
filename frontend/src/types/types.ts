@@ -22,7 +22,7 @@ export interface UserType {
   created_at: Date;
 }
 
-export interface HistoryType {
+export interface OrdersType {
   id: string;
   total_price: number;
   items: {
@@ -32,4 +32,18 @@ export interface HistoryType {
     quantity: number;
     price: number;
   }[];
+}
+
+export interface CartItemType {
+  product_id: string;
+  name: string;
+  image_url: string;
+  item_price: number;
+  total_price: number;
+}
+
+export interface CartType {
+  id: string;
+  total_price: number;
+  items: CartItemType[];
 }

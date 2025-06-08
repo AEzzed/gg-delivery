@@ -23,9 +23,9 @@ const SidePanel = ({
   return (
     <aside className={s.sortContainer}>
       <DropDown
-        dropDownItems={sortDropDownValues}
-        dropDownValue={sortByValue}
-        setDropDownValue={setSortByValue}
+        items={sortDropDownValues}
+        value={sortByValue}
+        setValue={setSortByValue}
         label="Сортировать по"
       />
 

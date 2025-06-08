@@ -99,9 +99,9 @@ const Catalog = () => {
 
             {allCategories && categoriesValue && (
               <DropDown
-                dropDownItems={allCategories}
-                dropDownValue={categoriesValue}
-                setDropDownValue={handleChangeCategory}
+                items={allCategories}
+                value={categoriesValue}
+                setValue={handleChangeCategory}
                 classname={s.tagBtn}
               />
             )}

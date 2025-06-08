@@ -6,8 +6,6 @@ import ProfileIcon from '../ui/assets/ProfileIcon';
 import Button from '../ui/Button/Button';
 
 const Header = () => {
-  const cartNumber = 9;
-
   const handleLogout = () => {
     sessionStorage.clear();
     location.reload();
@@ -26,7 +24,6 @@ const Header = () => {
         <NavLink to="/cart" className={s.linkItem}>
           <CartIcon />
 
-          <span className={s.cartNumber}>{cartNumber}</span>
         </NavLink>
         <Button type="grey" onclick={handleLogout}>
           Logout
