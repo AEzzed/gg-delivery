@@ -1,8 +1,8 @@
 import React from 'react';
 import s from './SidePanel.module.scss';
 import DropDown from '../../ui/DropDown/DropDown';
-import type { SortByStatusType } from '../types';
 import Input from '../../ui/Input/Input';
+import type { SortByStatusType } from '../../../types/types';
 
 interface ISidePanel {
   sortDropDownValues: string[];
@@ -48,7 +48,7 @@ const SidePanel = ({
             onchange={(e) =>
               setSortByPrice((prev) => ({
                 ...prev,
-                max: Number(e.target.value),
+                max: Number(e.target.value) || Infinity,
               }))
             }
             value={sortByPrice.max ? sortByPrice.max : undefined}

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/ui/Button/Button';
 
 import s from './RegisterPage.module.scss';
@@ -11,7 +11,11 @@ type RegisterType = AuthType & {
   confirmPassword: string;
 };
 
-const RegisterPage = () => {
+const RegisterPage = ({
+  setIsAuth,
+}: {
+  setIsAuth: (item: boolean) => void;
+}) => {
   const [registerData, setRegisterData] = useState<RegisterType>({
     password: '',
     confirmPassword: '',
@@ -20,11 +24,17 @@ const RegisterPage = () => {
 
   const [error, setError] = useState<null | string>(null);
 
+  const navigate = useNavigate();
+  const isAuth = !!sessionStorage.getItem('isAuth');
+
+  useEffect(() => {
+    if (isAuth) navigate('/');
+  }, [isAuth, navigate]);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     setError(null);
-
 
     const { confirmPassword, password, login } = registerData;
 
@@ -36,7 +46,9 @@ const RegisterPage = () => {
 
       if (res) {
         setError(res);
+        return;
       }
+      setIsAuth(true);
     } else {
       setError('Пароли не совпадают!');
     }

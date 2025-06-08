@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/ui/Button/Button';
 
 import s from './LoginPage.module.scss';
@@ -7,17 +7,41 @@ import Input from '../../components/ui/Input/Input';
 import type { AuthType } from '../../types/types';
 import { authApi } from '../../api/authApi';
 
-const LoginPage = () => {
+const LoginPage = ({ setIsAuth }: { setIsAuth: (item: boolean) => void }) => {
   const [loginData, setLoginData] = useState<AuthType>({
     password: '',
     login: '',
   });
+  const [error, setError] = useState<null | string>(null);
+  
+  const navigate = useNavigate();
+  const isAuth = !!sessionStorage.getItem('isAuth');
 
-  function handleSubmit(e: React.FormEvent) {
+  useEffect(() => {
+    if (isAuth) navigate('/');
+  }, [isAuth, navigate]);
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log('Form submitted!');
 
-    authApi.login(loginData);
+    setError(null);
+
+    const { login, password } = loginData;
+
+    if (password.trim() != '') {
+      const res = await authApi.login({
+        login: login.trim(),
+        password: password.trim(),
+      });
+
+      if (res) {
+        setError(res);
+        return;
+      }
+      setIsAuth(true);
+    } else {
+      setError('Пароль не должен быть пустым!');
+    }
   }
 
   return (
@@ -46,6 +70,7 @@ const LoginPage = () => {
           placeholder="Пароль"
           toggleBtn
         />
+        {error !== null ? <span className={s.error}>{error}</span> : null}
         <Button type="main">Войти</Button>
       </form>
     </section>

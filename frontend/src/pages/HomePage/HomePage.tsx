@@ -1,8 +1,11 @@
 import Catalog from '../../components/Catalog/Catalog';
 import Button from '../../components/ui/Button/Button';
+import useCheckAuth from '../../hooks/useCheckAuth';
 import s from './HomePage.module.scss';
 
 const HomePage = () => {
+  useCheckAuth();
+
   return (
     <div className={s.wrapper}>
       <div className={s.heroWrapper}>

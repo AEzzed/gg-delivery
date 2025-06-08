@@ -4,20 +4,26 @@ import Header from './components/Header/Header.tsx';
 import Footer from './components/Footer/Footer.tsx';
 import LoginPage from './pages/LoginPage/LoginPage.tsx';
 import RegisterPage from './pages/RegisterPage/RegisterPage.tsx';
+import { useState } from 'react';
 
 function App() {
+  const [isAuth, setIsAuth] = useState(!!sessionStorage.getItem('isAuth'));
+
   return (
     <main>
       <Header />
 
       <Routes>
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/signup' element={<RegisterPage />} />
-        
+        <Route path="/login" element={<LoginPage setIsAuth={setIsAuth} />} />
+        <Route
+          path="/signup"
+          element={<RegisterPage setIsAuth={setIsAuth} />}
+        />
+
         <Route path="/" element={<HomePage />} />
       </Routes>
 
-      <Footer />
+      {isAuth && <Footer />}
     </main>
   );
 }

@@ -8,20 +8,25 @@ export const authApi = {
         password,
         login,
       });
+      sessionStorage.setItem('isAuth', 'true');
+
       return;
-    } catch (err) {
+    } catch (err: any) {
       console.error(err.response.data.message);
       return err.response?.data?.message || 'Произошла ошибка';
     }
   },
+
   async register({ password, login }: AuthType): Promise<string | void> {
     try {
       await axios.post('api/register', {
         password,
         login,
         role: 'user',
-      }); 
-    } catch (err) {
+      });
+      sessionStorage.setItem('isAuth', 'true');
+      return;
+    } catch (err: any) {
       console.error(err.response.data.message);
       return err.response?.data?.message || 'Произошла ошибка';
     }

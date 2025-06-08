@@ -14,7 +14,7 @@ const Catalog = () => {
   const [sortByValue, setSortByValue] = useState<string>(sortDropDownValues[0]);
   const [sortByPrice, setSortByPrice] = useState<SortByStatusType>({
     min: 0,
-    max: 0,
+    max: Infinity,
   });
   const [categoriesValue, setCategoriesValue] = useState<string | null>(null);
   const [allCategories, setAllCategories] = useState<string[] | null>(null);
@@ -109,9 +109,20 @@ const Catalog = () => {
 
           {products ? (
             <div className={s.productsContainer}>
-              {products.map((product) => (
-                <ProductCard key={product.id} {...product} />
-              ))}
+              {products
+                .filter(
+                  (item) =>
+                    item.price >= sortByPrice.min &&
+                    item.price <= sortByPrice.max
+                )
+                .sort((a, b) =>
+                  sortByValue === 'По убыванию цены'
+                    ? b.price - a.price
+                    : a.price - b.price
+                )
+                .map((product) => (
+                  <ProductCard key={product.id} {...product} />
+                ))}
             </div>
           ) : (
             <div className="">Loading...</div>
