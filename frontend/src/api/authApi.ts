@@ -4,11 +4,13 @@ import axios from './instance';
 export const authApi = {
   async login({ password, login }: AuthType): Promise<string | undefined> {
     try {
-      await axios.post('api/login', {
+      const res = await axios.post('api/login', {
         password,
         login,
       });
-      sessionStorage.setItem('isAuth', 'true');
+      console.log(res.data.uid);
+      
+      sessionStorage.setItem('isAuth', res.data.uid);
 
       return;
     } catch (err: any) {
@@ -19,12 +21,13 @@ export const authApi = {
 
   async register({ password, login }: AuthType): Promise<string | void> {
     try {
-      await axios.post('api/register', {
+      const res = await axios.post('api/register', {
         password,
         login,
         role: 'user',
       });
-      sessionStorage.setItem('isAuth', 'true');
+      sessionStorage.setItem('isAuth', res.data.uid);
+
       return;
     } catch (err: any) {
       console.error(err.response.data.message);

@@ -1,7 +1,7 @@
 export type SortByStatusType = { min: number; max: number };
 
 export interface ProductType {
-  id: number;
+  id: string;
   name: string;
   price: number;
   category: string;

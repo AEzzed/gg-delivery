@@ -5,6 +5,7 @@ import Footer from './components/Footer/Footer.tsx';
 import LoginPage from './pages/LoginPage/LoginPage.tsx';
 import RegisterPage from './pages/RegisterPage/RegisterPage.tsx';
 import { useState } from 'react';
+import ProductPage from './pages/ProductPage/ProductPage.tsx';
 
 function App() {
   const [isAuth, setIsAuth] = useState(!!sessionStorage.getItem('isAuth'));
@@ -21,6 +22,7 @@ function App() {
         />
 
         <Route path="/" element={<HomePage />} />
+          <Route path='/:prodid' element={<ProductPage />} />
       </Routes>
 
       {isAuth && <Footer />}
