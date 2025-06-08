@@ -22,14 +22,14 @@ class AuthController extends Controller
             ], 422);
         }
 
-        User::create([
+        $user = User::create([
             'login' => $login,
             'password' => bcrypt($password),
             'role' => 'user',
         ]);
 
         return Response::json([
-            'message' => 'Пользователь зарегистрирован',
+            'uid' => $user->id,
         ], 201);
     }
 
@@ -50,7 +50,7 @@ class AuthController extends Controller
         }
 
         return Response::json([
-            'message' => 'Вы вошли',
+            'uid' => $user->id,
         ], 200);
     }
 }

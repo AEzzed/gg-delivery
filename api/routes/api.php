@@ -26,7 +26,10 @@ Route::post('/catalog', [ProductController::class, 'getCatalog'])->name('getCata
 //Get all product categories
 Route::get('/categories', [ProductController::class, 'getCategories'])->name('getCategories');
 
+Route::post('/cart/item/add', [ProductController::class, 'addItemToCart']);
+Route::post('/cart/item/remove', [ProductController::class, 'removeItemFromCart']);
+Route::post('/cart/item/quantity', [ProductController::class, 'getCartItemQuantity']);
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
-Route::get('/user', [AuthController::class, 'user']);
+// Route::get('/user', [AuthController::class, 'user']);
