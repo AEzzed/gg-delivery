@@ -13,7 +13,7 @@ const HomePage = () => {
           <h1 className={s.title}>
             Здоровая еда <br /> доступна каждому!
           </h1>
-          <Button type="stroke-light">Заказать сейчас</Button>
+          <Button type="strokeLight">Заказать сейчас</Button>
         </div>
       </div>
 

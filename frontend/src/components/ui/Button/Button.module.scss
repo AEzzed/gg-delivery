@@ -15,6 +15,11 @@
   border: none;
   background: transparent;
 
+  
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+
   &:hover {
     opacity: 0.8;
   }
@@ -35,4 +40,10 @@
   background: var(--light-add);
   color: var(--dark-add);
   gap: 0.375rem;
+}
+
+.main {
+  background: var(--primary-color);
+  color: var(--light-main);
+  width: 100%;
 }

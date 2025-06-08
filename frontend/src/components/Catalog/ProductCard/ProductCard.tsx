@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import s from './ProductCard.module.scss';
-import type { ProductType } from '../types';
+import type { ProductType } from '../../../types/types';
 
 interface IProductCard extends ProductType {
   amount?: number;
@@ -9,7 +9,9 @@ interface IProductCard extends ProductType {
 const ProductCard = ({ name, price, amount = 0, image_url }: IProductCard) => {
   const [currAmount, setCurrAmount] = useState(amount);
   const imagePath =
-    image_url != '' ? `/images/products/${image_url}` : '/images/products/plug-img.png';
+    image_url != ''
+      ? `/images/products/${image_url}`
+      : '/images/products/plug-img.png';
 
   function handleAddToCart() {
     setCurrAmount((prev) => ++prev);

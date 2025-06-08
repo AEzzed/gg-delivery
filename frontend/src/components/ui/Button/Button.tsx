@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './Button.module.scss';
 
-type ButtonType = 'stroke-light' | 'stroke-dark' | 'grey';
+type ButtonType = 'strokeLight' | 'strokeDark' | 'grey' | 'main';
 
 interface IButton extends React.PropsWithChildren {
   type: ButtonType;
@@ -9,23 +9,9 @@ interface IButton extends React.PropsWithChildren {
   onclick?: () => void;
 }
 
-function useButtonType(type: ButtonType) {
-  switch (type) {
-    case 'stroke-light':
-      return s.strokeLight;
-    case 'stroke-dark':
-      return s.strokeDark;
-    case 'grey':
-      return s.grey;
-  }
-}
-
 const Button = ({ children, type, classname, onclick }: IButton) => {
   return (
-    <button
-      onClick={onclick}
-      className={`${s.button} ${useButtonType(type)} ${classname}`}
-    >
+    <button onClick={onclick} className={`${s.button} ${s[type]} ${classname}`}>
       {children}
     </button>
   );

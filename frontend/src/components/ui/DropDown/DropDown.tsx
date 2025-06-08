@@ -34,7 +34,7 @@ const DropDown = ({
       <Button
         classname={`${s.btn} ${classname}`}
         onclick={() => setIsOpen(!isOpen)}
-        type="stroke-dark"
+        type="strokeDark"
       >
         {dropDownValue}
 

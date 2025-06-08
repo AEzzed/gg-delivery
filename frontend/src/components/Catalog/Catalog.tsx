@@ -6,7 +6,7 @@ import CrossIcon from '../ui/assets/CrossIcon';
 import DropDown from '../ui/DropDown/DropDown';
 import ProductCard from './ProductCard/ProductCard';
 import { productApi } from '../../api/productApi';
-import type { ProductType, SortByStatusType } from './types';
+import type { ProductType, SortByStatusType } from '../../types/types';
 
 const sortDropDownValues = ['По возрастанию цены', 'По убыванию цены'];
 
@@ -91,7 +91,7 @@ const Catalog = () => {
               <Button
                 classname={s.categoryBtn}
                 onclick={() => setCategories([])}
-                type="stroke-dark"
+                type="strokeDark"
               >
                 Очистить фильтры
               </Button>

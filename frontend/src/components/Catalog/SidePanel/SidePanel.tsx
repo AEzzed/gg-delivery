@@ -1,7 +1,8 @@
 import React from 'react';
 import s from './SidePanel.module.scss';
 import DropDown from '../../ui/DropDown/DropDown';
-import type { SortByStatusType } from '../Catalog';
+import type { SortByStatusType } from '../types';
+import Input from '../../ui/Input/Input';
 
 interface ISidePanel {
   sortDropDownValues: string[];
@@ -31,20 +32,20 @@ const SidePanel = ({
       <div className={s.sortInputs}>
         <label className={s.label}>Цена</label>
         <div className="">
-          <input
+          <Input
             type="number"
-            onChange={(e) =>
+            onchange={(e) =>
               setSortByPrice((prev) => ({
                 ...prev,
                 min: Number(e.target.value),
               }))
             }
             value={sortByPrice.min ? sortByPrice.min : undefined}
-            className={s.sortInput}
+            classname={s.sortInput}
             placeholder="От"
           />
-          <input
-            onChange={(e) =>
+          <Input
+            onchange={(e) =>
               setSortByPrice((prev) => ({
                 ...prev,
                 max: Number(e.target.value),
@@ -52,7 +53,7 @@ const SidePanel = ({
             }
             value={sortByPrice.max ? sortByPrice.max : undefined}
             type="number"
-            className={s.sortInput}
+            classname={s.sortInput}
             placeholder="До"
           />
         </div>

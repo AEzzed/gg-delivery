@@ -1,0 +1,37 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.inp {
+  max-width: 100%;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10rem;
+  border: 1px solid var(--dark-main);
+  color: var(--dark-main);
+  outline: none;
+
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+
+  background: transparent;
+
+  -moz-appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+}
+
+.toggleBtn {
+  position: absolute;
+  bottom: 1rem;
+  top: 1rem;
+  right: 1rem;
+
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}

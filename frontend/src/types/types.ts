@@ -8,3 +8,8 @@ export interface ProductType {
   stock_quantity: number;
   image_url: string;
 }
+
+export type AuthType = {
+  password: string;
+  login: string;
+};
