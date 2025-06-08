@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.divider {
+  display: block;
+  height: 1rem;
+  width: 1px;
+
+  background: var(--dark-main);
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--dark-main);
+
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: opacity 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.pathContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--dark-main);
+}

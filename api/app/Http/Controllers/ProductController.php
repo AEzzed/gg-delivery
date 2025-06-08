@@ -24,6 +24,13 @@ class ProductController extends Controller
         return $products;
     }
 
+    public function getProduct(Request $request)
+    {
+        $id = $request->input('product_id');
+        $product = Product::find($id);
+        return $product;
+    }
+
     public function getCategories()
     {
         $categories = Product::select('category')
@@ -41,8 +48,6 @@ class ProductController extends Controller
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
-
-        // Получаем текущего пользователя
 
         // Проверяем, есть ли у пользователя активная корзина (status = 'cart')
         $cart = Order::where('user_id', $request->user_id)
@@ -119,6 +124,36 @@ class ProductController extends Controller
         }
 
         // Обновляем общую стоимость
+        $cart->update([
+            'total_price' => $cart->orderItems()->sum('price'),
+        ]);
+
+        return response()->json(['message' => 'Товар удален из корзины']);
+    }
+
+    public function removeFromCart(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        $cart = Order::where('user_id', $request->user_id)
+            ->where('status', 'cart')
+            ->first();
+
+        if (!$cart) {
+            return response()->json(['message' => 'Корзина не найдена'], 404);
+        }
+
+        $existingItem = $cart->orderItems()
+            ->where('product_id', $request->product_id)
+            ->first();
+
+        if ($existingItem) {
+            $existingItem->delete();
+        }
+
         $cart->update([
             'total_price' => $cart->orderItems()->sum('price'),
         ]);

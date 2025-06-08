@@ -22,7 +22,7 @@ function App() {
         />
 
         <Route path="/" element={<HomePage />} />
-          <Route path='/:prodid' element={<ProductPage />} />
+        <Route path="/:prodid" element={<ProductPage />} />
       </Routes>
 
       {isAuth && <Footer />}

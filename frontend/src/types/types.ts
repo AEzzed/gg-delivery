@@ -7,6 +7,7 @@ export interface ProductType {
   category: string;
   stock_quantity: number;
   image_url: string;
+  description: string;
 }
 
 export type AuthType = {

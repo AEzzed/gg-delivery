@@ -16,18 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-// Route::get('/catalog', [ProductController::class, 'getCatalog'])->name('getCatalog');
-Route::post('/catalog', [ProductController::class, 'getCatalog'])->name('getCatalog');
+Route::post('/catalog', [ProductController::class, 'getCatalog']);
 
-//Get all product categories
-Route::get('/categories', [ProductController::class, 'getCategories'])->name('getCategories');
+Route::get('/categories', [ProductController::class, 'getCategories']);
+Route::get('/product', [ProductController::class, 'getProduct']);
 
 Route::post('/cart/item/add', [ProductController::class, 'addItemToCart']);
 Route::post('/cart/item/remove', [ProductController::class, 'removeItemFromCart']);
+Route::post('/cart/remove', [ProductController::class, 'removeFromCart']);
 Route::post('/cart/item/quantity', [ProductController::class, 'getCartItemQuantity']);
 
 Route::post('/register', [AuthController::class, 'register']);
