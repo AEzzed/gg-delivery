@@ -6,9 +6,13 @@
   gap: 1rem;
   width: 100%;
   height: 100vh;
+
+  @media screen and (max-width: 1440px) {
+    padding: 8rem 20px;
+  }
 }
 
-.formConteainer {
+.formContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,6 +36,7 @@
   font-size: 14px;
   line-height: 22px;
   color: var(--dark-add);
+  text-align: center;
 
   display: flex;
   align-items: center;
@@ -52,4 +57,8 @@
   font-size: 12px;
   line-height: 18px;
   color: var(--error-color);
+
+  @media screen and (max-width: 1440px) {
+    text-align: center;
+  }
 }

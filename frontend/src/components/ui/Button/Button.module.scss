@@ -25,6 +25,15 @@
   }
 }
 
+.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+
+  &:hover {
+    opacity: 0.3;
+  }
+}
+
 .strokeLight {
   border: 1px solid var(--light-main);
   color: var(--light-main);

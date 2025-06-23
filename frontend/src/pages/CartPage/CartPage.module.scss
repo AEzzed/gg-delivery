@@ -9,6 +9,10 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  @media screen and (max-width: 1440px) {
+    padding: 8rem 20px;
+  }
 }
 
 .title {
@@ -22,6 +26,12 @@
   display: flex;
   justify-content: space-between;
   gap: 4rem;
+
+  @media screen and (max-width: 1440px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 }
 
 .cartItems {
@@ -31,6 +41,10 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  @media screen and (max-width: 1440px) {
+    max-width: none;
+  }
 }
 
 .OrderInfo {
@@ -39,6 +53,10 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  @media screen and (max-width: 1440px) {
+    max-width: none;
+  }
 
   .notification {
     padding: 1rem;
@@ -78,6 +96,11 @@
       line-height: 1.5rem;
 
       color: var(--dark-main);
+
+      @media screen and (max-width: 540px) {
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
     .divider {
@@ -86,8 +109,6 @@
       background: var(--light-add);
     }
 
-    .dropDown {
-    }
 
     .infoItem {
       width: 100%;

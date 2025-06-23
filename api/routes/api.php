@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('/catalog', [ProductController::class, 'getCatalog']);
+Route::post('/order/confirm', [ProductController::class, 'confirmOrder']);
+Route::get('/orders', [ProductController::class, 'getOrders']);
 Route::get('/categories', [ProductController::class, 'getCategories']);
 Route::get('/product', [ProductController::class, 'getProduct']);
 
@@ -30,8 +32,6 @@ Route::post('/cart/remove', [ProductController::class, 'removeFromCart']);
 Route::post('/cart/item/quantity', [ProductController::class, 'getCartItemQuantity']);
 Route::get('/cart/history', [ProductController::class, 'getOrderHistory']);
 Route::get('/cart', [ProductController::class, 'getCart']);
-Route::get('/orders', [ProductController::class, 'getOrders']);
-Route::post('/order/confirm', [ProductController::class, 'confirmOrder']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

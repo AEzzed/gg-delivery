@@ -47,7 +47,6 @@ class ProductController extends Controller
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
-
         $userId = $request->user_id;
 
         $cart = Order::where('user_id', $userId)
@@ -65,10 +64,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($request->product_id);
         $newQuantity = $request->quantity;
         $itemPrice = $product->price;
-
-        $existingItem = $cart->orderItems()
-            ->where('product_id', $request->product_id)
-            ->first();
+        $existingItem = $cart->orderItems()->where('product_id', $request->product_id)->first();
 
         if ($existingItem) {
             $updatedQuantity = $existingItem->quantity + $newQuantity;
@@ -86,11 +82,9 @@ class ProductController extends Controller
                 'price' => $itemPrice * $newQuantity,
             ]);
         }
-
         $cart->update([
             'total_price' => $cart->orderItems()->sum('price'),
         ]);
-
         return response()->json(['message' => 'Товар успешно добавлен в корзину'], 200);
     }
 
@@ -102,7 +96,9 @@ class ProductController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $cart = Order::where('user_id', $request->user_id)
+        $userId = $request->user_id;
+
+        $cart = Order::where('user_id', $userId)
             ->where('status', 'cart')
             ->first();
 
@@ -114,17 +110,23 @@ class ProductController extends Controller
             ->where('product_id', $request->product_id)
             ->first();
 
-        if ($existingItem) {
-            $newQuantity = $existingItem->quantity - $request->quantity;
+        $product = Product::findOrFail($request->product_id);
+        $newQuantity = $request->quantity;
+        $itemPrice = $product->price;
 
-            if ($newQuantity <= 0) {
-                $existingItem->delete();
-            } else {
-                $existingItem->update(['quantity' => $existingItem->quantity - $request->quantity]);
-            }
+        $updatedQuantity = $existingItem->quantity - $newQuantity;
+        $updatedPrice = $itemPrice * $updatedQuantity;
+
+
+        if ($updatedQuantity <= 0) {
+            $existingItem->delete();
+        } else {
+            $existingItem->update([
+                'quantity' => $updatedQuantity,
+                'price' => $updatedPrice,
+            ]);
         }
 
-        // Обновляем общую стоимость
         $cart->update([
             'total_price' => $cart->orderItems()->sum('price'),
         ]);
@@ -190,7 +192,6 @@ class ProductController extends Controller
     public function getOrderHistory(Request $request)
     {
         $userId = $request->input('user_id');
-
         $orders = Order::where('user_id', $userId)
             ->where('status', '=', 'completed')
             ->with([
@@ -198,7 +199,6 @@ class ProductController extends Controller
             ])
             ->orderByDesc('created_at')
             ->get();
-
         $formattedOrders = $orders->map(function ($order) {
             return [
                 'id' => $order->id,
@@ -214,14 +214,12 @@ class ProductController extends Controller
                 }),
             ];
         });
-
         return response()->json($formattedOrders);
     }
 
     public function getOrders(Request $request)
     {
         $userId = $request->input('user_id');
-
         $orders = Order::where('user_id', $userId)
             ->where('status', '=', 'in progress')
             ->with([
@@ -229,7 +227,6 @@ class ProductController extends Controller
             ])
             ->orderByDesc('created_at')
             ->get();
-
         $formattedOrders = $orders->map(function ($order) {
             return [
                 'id' => $order->id,
@@ -245,7 +242,6 @@ class ProductController extends Controller
                 }),
             ];
         });
-
         return response()->json($formattedOrders);
     }
 
@@ -293,14 +289,14 @@ class ProductController extends Controller
 
         $cart = Order::where('user_id', $request->user_id)
             ->where('status', 'cart')
-            ->with('orderItems.product') // можно загрузить товары, если нужно
+            ->with('orderItems.product')
             ->first();
 
 
         $cart->update([
             'payment_method' => $request->payment_method,
             'delivery_method' => $request->delivery_method,
-            'status' => 'in progress', 
+            'status' => 'in progress',
         ]);
 
         return response()->json([

@@ -5,17 +5,14 @@ import type { OrdersType, UserType } from '../../types/types';
 import { authApi } from '../../api/authApi';
 import { productApi } from '../../api/productApi';
 import { getImagePath } from '../../utils/utils';
+import useCheckAuth from '../../hooks/useCheckAuth';
+import Button from '../../components/ui/Button/Button';
 
 const ProfilePage = () => {
+  useCheckAuth();
   const [userInfo, setUserInfo] = useState<UserType | null>(null);
-  const [ordersHistory, setOrdersHistory] = useState<OrdersType[] | null>(
-    null
-  );
-
-  const [orders, setOrders] = useState<OrdersType[] | null>(
-    null
-  );
-
+  const [ordersHistory, setOrdersHistory] = useState<OrdersType[] | null>(null);
+  const [orders, setOrders] = useState<OrdersType[] | null>(null);
   const userId = sessionStorage.getItem('isAuth');
 
   useEffect(() => {
@@ -31,7 +28,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchOrdersHistory = async () => {
       if (userId) {
-        const res = await productApi.getHistory({ userId });        
+        const res = await productApi.getHistory({ userId });
         setOrdersHistory(res ?? null);
       }
     };
@@ -49,12 +46,21 @@ const ProfilePage = () => {
     fetchOrders();
   }, [userId]);
 
+  const handleLogout = () => {
+    sessionStorage.clear();
+    location.reload();
+  };
 
   return (
     <section className={s.wrapper}>
       <NavPanel pathName="Профиль" />
 
-      <h2 className={s.title}>Личный кабинет</h2>
+      <div className={s.titleContainer}>
+        <h2 className={s.title}>Личный кабинет</h2>
+        <Button type="grey" onclick={handleLogout}>
+          Logout
+        </Button>
+      </div>
       <div className={s.info}>
         <span>Логин: </span>
         <span>{userInfo?.login ?? 'loading...'}</span>
@@ -78,7 +84,10 @@ const ProfilePage = () => {
 
                 <div className={s.historyItems}>
                   {order.items.map((item, index) => (
-                    <div key={`${index}-${item.product_id}`} className={s.historyItem}>
+                    <div
+                      key={`${index}-${item.product_id}`}
+                      className={s.historyItem}
+                    >
                       <div className={s.historyItemTitle}>
                         <img
                           src={getImagePath(item.image_url)}
@@ -86,8 +95,10 @@ const ProfilePage = () => {
                         />
                         <span>{item.name}</span>
                       </div>
-                      <span>Количество: {item.quantity}</span>
-                      <span>Стоимость: {item.price} ₽</span>
+                      <div className={s.historyItemInfo}>
+                        <span>Количество: {item.quantity}</span>
+                        <span>Стоимость: {item.price} ₽</span>
+                      </div>
                     </div>
                   ))}
                 </div>

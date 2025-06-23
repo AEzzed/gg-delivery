@@ -71,7 +71,7 @@ const Catalog = () => {
         />
 
         <div className={s.catalog}>
-          <span>Найдено {products?.length ?? 0} наименований</span>
+          <span>Всего {products?.length ?? 0} наименований</span>
           <div className={s.categoriesWrapper}>
             <div className={s.categories}>
               {categories.map((category, index) => (

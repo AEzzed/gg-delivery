@@ -8,6 +8,11 @@
     background-repeat: no-repeat;
     background-size: cover;
 
+    @media screen and (max-width: 920px) {
+      max-height: fit-content;
+      height: fit-content;
+    }
+
     .heroContainer {
       max-width: var(--max-width);
       width: 100%;
@@ -18,7 +23,14 @@
       flex-direction: column;
       justify-content: center;
       gap: 1.5rem;
-      
+
+      @media screen and (max-width: 1440px) {
+        padding: 60px 20px;
+      }
+      @media screen and (max-width: 920px) {
+        gap: 1rem;
+      }
+
       .subtitle {
         font-weight: 500;
         font-size: 0.875rem;
@@ -33,6 +45,11 @@
         line-height: 4.25rem;
 
         color: var(--light-main);
+
+        @media screen and (max-width: 920px) {
+          font-size: 2.5rem;
+          line-height: normal;
+        }
       }
     }
   }

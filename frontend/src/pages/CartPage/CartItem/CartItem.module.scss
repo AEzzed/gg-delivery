@@ -13,6 +13,11 @@
   font-size: 1rem;
   line-height: 1.5rem;
 
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
   .title {
     margin-right: auto;
     display: flex;
@@ -30,6 +35,28 @@
       height: auto;
       object-fit: contain;
       object-position: center;
+    }
+
+    @media screen and (max-width: 770px) {
+      margin-right: 0;
+      flex-direction: column;
+      font-size: 1.25rem;
+    }
+  }
+
+  .info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    @media screen and (max-width: 540px) {
+      gap: 1rem;
+      & > span {
+        width: 100%;
+      }
     }
   }
 
@@ -63,7 +90,8 @@
       color: var(--dark-add);
     }
   }
-  .clearBtn {
+  .clearBtn,
+  .modileClearBtn {
     cursor: pointer;
     transition: opacity 0.3s;
     background: transparent;
@@ -76,6 +104,18 @@
     > * {
       width: 1.5rem;
       height: 1.5rem;
+    }
+  }
+  .modileClearBtn {
+      display: none;
+  }
+
+  @media screen and (max-width: 540px) {
+    .clearBtn {
+      display: none;
+    }
+    .modileClearBtn {
+      display: block;
     }
   }
 }

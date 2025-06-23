@@ -15,28 +15,27 @@ const CartItem = ({
 }) => {
   const userId = sessionStorage.getItem('isAuth');
 
-  const { quantity, addToCart, removeFromCart, refresh } = useCartItem(
+  const { quantity, addToCart, removeFromCart } = useCartItem(
     userId,
     item.product_id
   );
 
   const handleClearItem = async () => {
-    productApi.removeAllProduct({
+    await productApi.removeAllProduct({
       productId: Number(item.product_id),
       userId: Number(userId),
     });
 
-    refresh();
     refreshCart();
   };
 
-  const handleAddToCart = () => {
-    addToCart();
+  const handleAddToCart = async () => {
+    await addToCart();
     refreshCart();
   };
 
-  const handleRemoveFromCart = () => {
-    removeFromCart();
+  const handleRemoveFromCart = async () => {
+    await removeFromCart();
     refreshCart();
   };
 
@@ -46,19 +45,26 @@ const CartItem = ({
         <img src={getImagePath(item.image_url)} alt={item.name} />
         <h4>{item.name}</h4>
       </div>
-      <span>{item.item_price} ₽</span>
-      <div className={s.quantityBtn}>
-        <button onClick={handleRemoveFromCart}>-</button>
-        <span>{quantity}</span>
-        <button onClick={handleAddToCart}>+</button>
-      </div>
-      <span>{item.total_price} ₽</span>
+      <div className={s.info}>
+        <span>{item.item_price} ₽</span>
+        <div className={s.quantityBtn}>
+          <button onClick={handleRemoveFromCart}>-</button>
+          <span>{quantity}</span>
+          <button onClick={handleAddToCart}>+</button>
+        </div>
+        {item.product_id && userId && (
+          <button className={s.modileClearBtn} onClick={handleClearItem}>
+            <CrossIcon />
+          </button>
+        )}
+        <span>{item.total_price} ₽</span>
 
-      {item.product_id && userId && (
-        <button className={s.clearBtn} onClick={handleClearItem}>
-          <CrossIcon />
-        </button>
-      )}
+        {item.product_id && userId && (
+          <button className={s.clearBtn} onClick={handleClearItem}>
+            <CrossIcon />
+          </button>
+        )}
+      </div>
     </div>
   );
 };

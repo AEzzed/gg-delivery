@@ -3,15 +3,23 @@ import s from './Button.module.scss';
 
 type ButtonType = 'strokeLight' | 'strokeDark' | 'grey' | 'main';
 
-interface IButton extends React.PropsWithChildren {
+interface IButton {
   type: ButtonType;
   classname?: string;
   onclick?: () => void;
+  disabled?: boolean;
+  children: React.ReactNode;
 }
 
-const Button = ({ children, type, classname, onclick }: IButton) => {
+const Button = ({ children, type, classname, onclick, disabled }: IButton) => {
   return (
-    <button onClick={onclick} className={`${s.button} ${s[type]} ${classname}`}>
+    <button
+      disabled={disabled}
+      onClick={onclick}
+      className={`${s.button} ${s[type]} ${
+        disabled ? s.disabled : ''
+      } ${classname}`}
+    >
       {children}
     </button>
   );

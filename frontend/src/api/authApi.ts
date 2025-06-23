@@ -8,13 +8,13 @@ export const authApi = {
         password,
         login,
       });
-      console.log(res.data.uid);
+      console.log(res);
 
       sessionStorage.setItem('isAuth', res.data.uid);
 
       return;
     } catch (err: any) {
-      console.error(err.response.data.message);
+      console.error(err);
       return err.response?.data?.message || 'Произошла ошибка';
     }
   },

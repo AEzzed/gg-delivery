@@ -62,7 +62,7 @@ const RegisterPage = ({
         <Link to="/login">Войти</Link>
       </div>
 
-      <form className={s.formConteainer}>
+      <form className={s.formContainer}>
         <Input
           type="text"
           value={registerData.login}
@@ -81,6 +81,8 @@ const RegisterPage = ({
           toggleBtn
         />
 
+        <p className={s.subtitle}>Пароль должен содержать как минимум 8 символов</p>
+
         <Input
           type="password"
           value={registerData.confirmPassword}
@@ -96,7 +98,7 @@ const RegisterPage = ({
 
         {error !== null ? <span className={s.error}>{error}</span> : null}
 
-        <Button type="main">Войти</Button>
+        <Button type="main">Зарегистрироваться</Button>
       </form>
     </section>
   );

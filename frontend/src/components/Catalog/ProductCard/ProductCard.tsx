@@ -27,11 +27,11 @@ const ProductCard = ({
         <div className={s.cardButtons}>
           {quantity > 0 && (
             <>
-              <button onClick={() => removeFromCart()}>-</button>
+              <button onClick={removeFromCart}>-</button>
               <span>{quantity}</span>
             </>
           )}
-          <button onClick={() => addToCart()}>+</button>
+          <button onClick={addToCart}>+</button>
         </div>
       </div>
 

@@ -6,21 +6,22 @@ import type { CartType } from '../../types/types';
 import { productApi } from '../../api/productApi';
 import CartItem from './CartItem/CartItem';
 import DropDown from '../../components/ui/DropDown/DropDown';
+import useCheckAuth from '../../hooks/useCheckAuth';
 
 const deliveryMethods = ['Курьер', 'Самовывоз'];
 const paymentMethods = ['Наличными', 'Qr-code'];
 
 const CartPage = () => {
+  useCheckAuth();
+
   const [notification, setNotification] = useState(true);
   const [cart, setCart] = useState<CartType | null>(null);
   const userId = sessionStorage.getItem('isAuth');
-
   const [isSuccess, setIsSuccess] = useState(false);
-
+  const [paymentMethod, setPaymentMethod] = useState<string>(paymentMethods[0]);
   const [deliveryMethod, setDeliveryMethod] = useState<string>(
     deliveryMethods[0]
   );
-  const [paymentMethod, setPaymentMethod] = useState<string>(paymentMethods[0]);
 
   const fetchCart = async () => {
     if (userId) {
@@ -28,6 +29,7 @@ const CartPage = () => {
       setCart(res ?? null);
     }
   };
+
   useEffect(() => {
     fetchCart();
   }, [userId]);
@@ -58,6 +60,18 @@ const CartPage = () => {
       }
     }
   };
+
+  const [total, setTotal] = useState<number>(30);
+
+  useEffect(() => {
+    if (cart?.total_price != 0) {
+      const deliveryPrice = notification || deliveryMethod === 'Самовывоз' ? 0 : 78;
+      const newTotal = Number(cart?.total_price) + 30 + deliveryPrice;
+      setTotal(newTotal);
+    } else {
+      setTotal(0);
+    }
+  }, [cart?.total_price, deliveryMethod, notification]);
 
   return (
     <div className={s.wrapper}>
@@ -130,7 +144,9 @@ const CartPage = () => {
             <div className={s.infoItem}>
               <span>Доставка:</span>
               <span className={s.infoItemBold}>
-                {notification ? 'Бесплатно' : '78 ₽'}
+                {notification || deliveryMethod === 'Самовывоз'
+                  ? 'Бесплатно'
+                  : '78 ₽'}
               </span>
             </div>
 
@@ -139,11 +155,15 @@ const CartPage = () => {
             <div className={s.infoItem}>
               <span>Итого:</span>
               <span className={s.price}>
-                {cart?.total_price ? Number(cart?.total_price) + 30 : 0} ₽
+                {total} ₽
               </span>
             </div>
 
-            <Button onclick={handleConfirmOrder} type="main">
+            <Button
+              disabled={cart?.total_price == 0}
+              onclick={handleConfirmOrder}
+              type="main"
+            >
               Оформить заказ
             </Button>
           </div>
